@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Todo List</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <style>
+                body {
+            margin: 20px;
+        }
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+            padding: 10px;
+        }
+
+        .task-item .actions {
+            display: flex;
+        }
+
+        .category-filter {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Todo List</h1>
+
+        <div class="form-group">
+            <label for="task">Nouvelle tâche:</label>
+            <input v-model="newTask" @keyup.enter="addTask" type="text" class="form-control" id="task">
+        </div>
+
+        <div class="form-group">
+            <label for="category">Catégorie:</label>
+            <input v-model="newCategory" type="text" class="form-control" id="category">
+        </div>
+
+        <div class="form-check">
+            <input v-model="important" class="form-check-input" type="checkbox" id="important">
+            <label class="form-check-label" for="important">Importante</label>
+        </div>
+
+        <button @click="addTask" class="btn btn-primary">Ajouter</button>
+
+        <div class="form-group category-filter">
+            <label for="categoryFilter">Filtrer par catégorie:</label>
+            <select v-model="selectedCategory" class="form-control" id="categoryFilter">
+                <option value="">Toutes les catégories</option>
+                <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
+            </select>
+        </div>
+
+        <ul class="task-list">
+            <li v-for="task in filteredTasks" :key="task.id" class="task-item">
+                <div>
+                    <strong>{{ task.title }}</strong> ({{ task.category }})
+                    <span v-if="task.important" style="color: red;"> - Importante</span>
+                </div>
+                <div class="actions">
+                    <button @click="editTask(task)">Modifier</button>
+                    <button @click="deleteTask(task.id)">Supprimer</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                newTask: '',
+                newCategory: '',
+                important: false,
+                tasks: [],
+                selectedCategory: '',
+            },
+            computed: {
+                filteredTasks: function () {
+                    if (this.selectedCategory === '') {
+                        return this.tasks;
+                    } else {
+                        return this.tasks.filter(task => task.category === this.selectedCategory);
+                    }
+                },
+                categories: function () {
+                    const uniqueCategories = new Set(this.tasks.map(task => task.category));
+                    return Array.from(uniqueCategories);
+                }
+            },
+            methods: {
+                addTask: function () {
+                    if (this.newTask.trim() !== '') {
+                        this.tasks.push({
+                            id: Date.now(),
+                            title: this.newTask,
+                            category: this.newCategory,
+                            important: this.important
+                        });
+
+                        this.newTask = '';
+                        this.newCategory = '';
+                        this.important = false;
+                    }
+                },
+                editTask: function (task) {
+                    const updatedTitle = prompt('Modifier la tâche:', task.title);
+                    const updatedCategory = prompt('Modifier la catégorie:', task.category);
+
+                    if (updatedTitle !== null && updatedCategory !== null) {
+                        task.title = updatedTitle;
+                        task.category = updatedCategory;
+                    }
+                },
+                deleteTask: function (taskId) {
+                    const index = this.tasks.findIndex(task => task.id === taskId);
+                    if (index !== -1) {
+                        this.tasks.splice(index, 1);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
