@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style2.css">
+  <title>Task Dashboard</title>
+</head>
+<body>
+
+<div class="sidebar">
+    <nav class="sidebar" :class="{ 'active': isSidebarActive }">
+        <div class="nav-logo">
+            <p>TODO</p>
+        </div>
+        <ul>
+            <li><a href="accueil.html" class="bx bx-home"></a></li>
+            <li><a href="#" class="bx bxs-dashboard"></a></li>
+            <li><a href="#" class="bx bx-help-circle"></a></li>
+            <li><a href="#" class="bx bx-calendar"></a></li>
+        
+        <button class="bx bx-user" id="registerBtn" onclick="redirectToLogin()"></button>
+      </ul>
+      <i class="bx bx-menu" onclick="toggleSidebar()"></i>
+      </nav>
+</div>
+
+<div class="content">
+  <h2>Task Dashboard</h2>
+  <div id="taskList">
+    <!-- Task items will be displayed here using JavaScript -->
+  </div>
+</div>
+
+<script src="script3.js"></script>
+</body>
+</html>

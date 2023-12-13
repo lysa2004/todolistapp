@@ -23,18 +23,18 @@ let month = today.getMonth();
 let year = today.getFullYear();
 
 const months = [
-  "Janvier",
-  "Fevrier",
-  "Mars",
-  "Avril",
-  "Mai",
-  "Juin",
-  "Juillet",
-  "Aout",
-  "Septembre",
-  "Octobre",
-  "Novembre",
-  "Decembre",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 
@@ -100,6 +100,7 @@ function initCalendar() {
   addListner();
 }
 
+//function to add month and year on prev and next button
 function prevMonth() {
   month--;
   if (month < 0) {
@@ -119,12 +120,11 @@ function nextMonth() {
 }
 
 prev.addEventListener("click", prevMonth);
-
 next.addEventListener("click", nextMonth);
 
 initCalendar();
 
-
+//function to add active on day
 function addListner() {
   const days = document.querySelectorAll(".day");
   days.forEach((day) => {
@@ -132,16 +132,16 @@ function addListner() {
       getActiveDay(e.target.innerHTML);
       updateEvents(Number(e.target.innerHTML));
       activeDay = Number(e.target.innerHTML);
-      
+      //remove active
       days.forEach((day) => {
         day.classList.remove("active");
       });
-      
+      //if clicked prev-date or next-date switch to that month
       if (e.target.classList.contains("prev-date")) {
         prevMonth();
-        
+        //add active to clicked day afte month is change
         setTimeout(() => {
-          
+          //add active where no prev-date or next-date
           const days = document.querySelectorAll(".day");
           days.forEach((day) => {
             if (
@@ -154,7 +154,7 @@ function addListner() {
         }, 100);
       } else if (e.target.classList.contains("next-date")) {
         nextMonth();
-        
+        //add active to clicked day afte month is changed
         setTimeout(() => {
           const days = document.querySelectorAll(".day");
           days.forEach((day) => {
@@ -242,7 +242,7 @@ function updateEvents(date) {
   });
   if (events === "") {
     events = `<div class="no-event">
-            <h3>Aucune Tache</h3>
+            <h3>No Events</h3>
         </div>`;
   }
   eventsContainer.innerHTML = events;
@@ -264,22 +264,10 @@ document.addEventListener("click", (e) => {
   }
 });
 
-//allow 50 chars in eventtitle
-addEventTitle.addEventListener("input", (e) => {
-  addEventTitle.value = addEventTitle.value.slice(0, 60);
-});
 
 
-//allow only time in eventtime from and to
-addEventFrom.addEventListener("input", (e) => {
-  addEventFrom.value = addEventFrom.value.replace(/[^0-9:]/g, "");
-  if (addEventFrom.value.length === 2) {
-    addEventFrom.value += ":";
-  }
-  if (addEventFrom.value.length > 5) {
-    addEventFrom.value = addEventFrom.value.slice(0, 5);
-  }
-});
+
+
 
 addEventTo.addEventListener("input", (e) => {
   addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
@@ -437,7 +425,6 @@ function convertTime(time) {
   return time;
 }
 
-
-function redirectToTodolist() {
+function redirectTotodolist(){
   window.location.href = "todolist.html";
 }

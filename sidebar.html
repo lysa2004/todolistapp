@@ -1,16 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Responsive Sidebar</title>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Home</title>
     <style>
+      body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+#app {
+    display: flex;
+}
+
+.sidebar {
+    height: 100vh;
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    padding-top: 20px;
+    position: fixed;
+    transition: 0.3s;
+}
+
+.sidebar.active {
+    width: 70px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 10px;
+    text-align: center;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    display: block;
+    padding: 10px;
+    transition: 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background-color: #555;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    transition: margin-left 0.3s;
+}
+
+.bx-user{
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bx-menu {
+    font-size: 30px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* Add more styling as needed */
 
     </style>
-  </head>
-  <body>
+</head>
+<body>
+    <div id="app">
+        <nav class="sidebar" :class="{ 'active': isSidebarActive }">
+            <div class="nav-logo">
+                <p>TODO</p>
+            </div>
+            <ul>
+                <li><a href="accueil.html" class="bx bx-home"></a></li>
+                <li><a href="#" class="bx bxs-dashboard"></a></li>
+                <li><a href="#" class="bx bx-help-circle"></a></li>
+                <li><a href="#" class="bx bx-calendar"></a></li>
+            
+            <button class="bx bx-user" id="registerBtn" @click="redirectToLogin"></button>
+          </ul>
+          <i class="bx bx-menu" @click="toggleSidebar"></i>
+          </nav>
+
+        <div class="content">
+          
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="script.js"></script>
     <script>
+        new Vue({
+            el: '#app',
+            data: {
+                isSidebarActive: false
+            },
+            methods: {
+                toggleSidebar() {
+                    this.isSidebarActive = !this.isSidebarActive;
+                },
+                redirectToLogin() {
+                    // Add your redirection logic here
+                    console.log('Redirecting to login...');
+                }
+            }
+        });
     </script>
-  </body>
+</body>
 </html>

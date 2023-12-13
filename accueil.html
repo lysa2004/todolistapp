@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
-    <title>Login & Registration</title>
+    <title>Home</title>
 </head>
 <body>
  <div class="wrapper">
@@ -16,20 +16,25 @@
         </div>
         <div class="nav-menu" id="navMenu">
             <ul>
-                <li><a href="accueil.html" class="link active">Accueil</a></li>
+                <li><a href="accueil.html" class="link active">home</a></li>
                 <li><a href="#" class="link">Services</a></li>
-                <li><a href="#" class="link">A Propos</a></li>
+                <li><a href="#" class="link">About</a></li>
+                <li><a href="#" class="link">Contact</a></li>
             </ul>
         </div>
         <div class="nav-button">
-            <a href="login.html" class="button">Compte</a>
+            <button class="btn" id="registerBtn" onclick="redirectToLogin()">Account</button>
         </div>
         <div class="nav-menu-btn">
             <i class="bx bx-menu" onclick="myMenuFunction()"></i>
         </div>
     </nav>
+    <section class="description">
+        <h2 id="text">Welcome to my TODO list</h2>
+    </section>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="script.js"></script>
     
 </body>
 </html>

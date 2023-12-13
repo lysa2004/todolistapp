@@ -33,7 +33,7 @@ body{
     z-index: 100;
 }
 .nav-logo p{
-    color: #fff;
+    color: white;
     font-size: 25px;
     font-weight: 600;
 }
@@ -53,26 +53,6 @@ body{
 .link:hover, .active{
     border-bottom: 2px solid #fff;
 }
-
-.nav-button a {
-    color : white;
-    width: 130px;
-    height: 100px;
-    font-weight: 500;
-    background: rgba(255, 255, 255, 0.4);
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: .3s ease;
-    text-decoration: none;
-    }
-
-
-.nav-button a .bx {
-    font-size: 24px; 
-    margin-right: 5px; 
-}
-
 .nav-button .btn{
     width: 130px;
     height: 40px;
@@ -85,6 +65,14 @@ body{
 }
 .btn:hover{
     background: rgba(255, 255, 255, 0.3);
+}
+.description {
+    text-align: center;
+}
+
+#text {
+    font-size: 24px;
+    color: #333;
 }
 #registerBtn{
     margin-left: 15px;

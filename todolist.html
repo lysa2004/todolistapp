@@ -7,13 +7,15 @@
     <title>Todo List</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <style>
-                body {
+        body {
             margin: 20px;
+            font-family: Arial, sans-serif;
         }
 
         .task-list {
             list-style: none;
             padding: 0;
+            margin-top: 20px;
         }
 
         .task-item {
@@ -27,10 +29,11 @@
 
         .task-item .actions {
             display: flex;
+            gap: 10px;
         }
 
         .category-filter {
-            margin-bottom: 10px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -39,39 +42,44 @@
         <h1>Todo List</h1>
 
         <div class="form-group">
-            <label for="task">Nouvelle tâche:</label>
+            <label for="task">New event:</label>
             <input v-model="newTask" @keyup.enter="addTask" type="text" class="form-control" id="task">
         </div>
 
         <div class="form-group">
-            <label for="category">Catégorie:</label>
+            <label for="category">Category:</label>
             <input v-model="newCategory" type="text" class="form-control" id="category">
         </div>
-
+        
         <div class="form-check">
             <input v-model="important" class="form-check-input" type="checkbox" id="important">
-            <label class="form-check-label" for="important">Importante</label>
+            <label class="form-check-label" for="important">Urgent</label>
         </div>
 
-        <button @click="addTask" class="btn btn-primary">Ajouter</button>
+        <button @click="addTask" class="btn btn-primary">Add</button>
 
         <div class="form-group category-filter">
-            <label for="categoryFilter">Filtrer par catégorie:</label>
+            <label for="categoryFilter">Filter by category</label>
             <select v-model="selectedCategory" class="form-control" id="categoryFilter">
-                <option value="">Toutes les catégories</option>
+                <option value="">All</option>
                 <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
+                <option value="incomplete">Non completed</option>
             </select>
         </div>
+
+        <p>{{ incompleteTaskCount }} task(s) non completed</p>
 
         <ul class="task-list">
             <li v-for="task in filteredTasks" :key="task.id" class="task-item">
                 <div>
-                    <strong>{{ task.title }}</strong> ({{ task.category }})
-                    <span v-if="task.important" style="color: red;"> - Importante</span>
+                    <strong :style="{ 'text-decoration': task.completed ? 'line-through' : 'none' }">{{ task.title }}</strong> ({{ task.category }})
+                    <span v-if="task.important" style="color: red;"> - Important</span>
+                    <span v-if="task.completed" style="color: green;"> - Completed</span>
                 </div>
                 <div class="actions">
-                    <button @click="editTask(task)">Modifier</button>
-                    <button @click="deleteTask(task.id)">Supprimer</button>
+                    <button @click="editTask(task)" class="btn btn-secondary btn-sm">Modify</button>
+                    <button @click="deleteTask(task.id)" class="btn btn-danger btn-sm">Delete</button>
+                    <button @click="toggleCompletion(task)" class="btn btn-info btn-sm">Toggle Completion</button>
                 </div>
             </li>
         </ul>
@@ -90,14 +98,25 @@
             computed: {
                 filteredTasks: function () {
                     if (this.selectedCategory === '') {
-                        return this.tasks;
+                        if (this.selectedFilter === 'incomplete') {
+                            return this.tasks.filter(task => !task.completed);
+                        } else {
+                            return this.tasks;
+                        }
                     } else {
-                        return this.tasks.filter(task => task.category === this.selectedCategory);
+                        if (this.selectedFilter === 'incomplete') {
+                            return this.tasks.filter(task => task.category === this.selectedCategory && !task.completed);
+                        } else {
+                            return this.tasks.filter(task => task.category === this.selectedCategory);
+                        }
                     }
-                },
+                },  
                 categories: function () {
                     const uniqueCategories = new Set(this.tasks.map(task => task.category));
                     return Array.from(uniqueCategories);
+                },
+                incompleteTaskCount: function () {
+                    return this.tasks.filter(task => !task.completed).length;
                 }
             },
             methods: {
@@ -107,7 +126,8 @@
                             id: Date.now(),
                             title: this.newTask,
                             category: this.newCategory,
-                            important: this.important
+                            important: this.important,
+                            completed: false
                         });
 
                         this.newTask = '';
@@ -116,8 +136,8 @@
                     }
                 },
                 editTask: function (task) {
-                    const updatedTitle = prompt('Modifier la tâche:', task.title);
-                    const updatedCategory = prompt('Modifier la catégorie:', task.category);
+                    const updatedTitle = prompt('Modify task:', task.title);
+                    const updatedCategory = prompt('Modify category:', task.category);
 
                     if (updatedTitle !== null && updatedCategory !== null) {
                         task.title = updatedTitle;
@@ -129,7 +149,10 @@
                     if (index !== -1) {
                         this.tasks.splice(index, 1);
                     }
-                }
+                },
+                toggleCompletion: function (task) {
+                    task.completed = !task.completed;
+                },
             }
         });
     </script>
